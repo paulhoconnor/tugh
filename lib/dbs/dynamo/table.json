@@ -1,0 +1,16 @@
+{
+  "TableName": "shorts",
+ "KeySchema":[
+    {"AttributeName": "code", "KeyType": "HASH"}
+ ],
+  "AttributeDefinitions": [
+      {
+         "AttributeName": "code",
+         "AttributeType": "S"
+     }
+  ],
+ "ProvisionedThroughput": {
+      "ReadCapacityUnits": 5,
+      "WriteCapacityUnits": 5
+   }
+}
