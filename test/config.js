@@ -1,7 +1,7 @@
 var config      = require('../lib/config'),
-    dynalite    = require('dynalite'),
     fs          = require('fs'),
     mockery     = require('mockery'),
+    LocalDB     = require('../lib/dbs/dynamo/localdb'),
     Dao         = require('../lib/daos/url');
 
 module.exports = config;
@@ -9,13 +9,20 @@ module.exports = config;
 var TestServer = require('./testServer'),
     testServer = new TestServer(),
     testServerUrl,
+    localdb,
     dao;
 
 config.getTestServerUrl = function() {
     return testServerUrl;
 };
 
-var dynaliteServer = dynalite({path: './localdb', createTableMs: 1});
+config.setTestServerUrl = function(url) {
+    testServerUrl = url;
+};
+
+config.getLocalDB = function() {
+    return localdb;
+};
 
 before(function (done) {
     mockery.enable({
@@ -28,40 +35,26 @@ before(function (done) {
 });
 
 before(function (done) {
-    dynaliteServer.listen(4567, function (err) {
-        if (!err) {
-            config.setDBUrl('http://localhost:4567');
-        }
-        done(err);
-    });
+    localdb = new LocalDB();
+    localdb.start(done);
 });
 
 before(function (done) {
     dao = Dao.get();
-    dao.createDB().then(function () {
+    dao.configDB().then(function () {
         done();
     }, done);
 });
 
 after(function (done) {
-    dao.deleteLocalDB().then(function () {
-        done();
-    }, done);
-});
-
-before(function (done) {
-    testServer.start(function (err, url) {
-        testServerUrl = url;
-        done(err);
+    localdb.stop(function (err) {
+        if (err) {
+            return done(err);
+        }
+        dao.deleteLocalDB().then(function () {
+            done();
+        }, done);
     });
-});
-
-after(function (done) {
-    testServer.stop(done);
-});
-
-after(function (done) {
-    dynaliteServer.close(done);
 });
 
 after(function (done) {
