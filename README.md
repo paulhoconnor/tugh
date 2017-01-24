@@ -1,6 +1,6 @@
 # tugh
 
-###URL shortening service - running in dev [here(http://tugh-dev.us-west-2.elasticbeanstalk.com/)
+###URL shortening service - running in dev [here](http://tugh-dev.us-west-2.elasticbeanstalk.com/)
 
 ##Overview
 
