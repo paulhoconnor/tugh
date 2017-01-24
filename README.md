@@ -15,17 +15,13 @@ tugh is a simple URL shortening service written in Node.js, using Amazon DynamoD
 
   - Request Body
 ```
-    {
         {"url": "<<url>>"}
-    }
 ```
   - Response
     - Code: 200 (success)
     - Body:
 ```
-    {
         {"code": "<<tugh code>>"}
-    }
 ```
 ###Retrieve URL for tugh code
 + retrieve URL for tugh code
@@ -36,10 +32,8 @@ tugh is a simple URL shortening service written in Node.js, using Amazon DynamoD
     - Code: 200 (success)
     - Body:
 ```
-    {
         {"url": "<<URL>>"}
-    }
-
+```
 ###Redirect to URL for tugh code
 + redirect to URL for tugh code
 
