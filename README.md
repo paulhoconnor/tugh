@@ -81,8 +81,8 @@ In local mode, tugh runs stand-alone and disconnected from enterprise infrastruc
 Follow these steps to install and run in local mode:
 
 $npm install  
-$npm test (ensure all tests passing)
-$npm run-script startLocal (tugh API listens on port 4501)
+$npm test (ensure all tests passing)  
+$npm run-script startLocal (tugh API listens on port 4501)  
 
 ###Deploying to AWS using Elastic Beanstalk
 ####Prerequisites
