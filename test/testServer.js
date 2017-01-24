@@ -1,7 +1,6 @@
 var async       = require('async'),
     config      = require('./config'),
     logger      = config.getLogger('TestServer'),
-    connect     = require('connect'),
     findandbind = require('findandbind'),
     nconf       = require('nconf'),
     util        = require('util'),
@@ -11,9 +10,6 @@ nconf.env();
 nconf.use('memory');
 
 module.exports = function (options) {
-    var testServerUrl,
-        tughUrl = 'http://localhost:4501',
-        self = this;
 
     options = options || {};
 
@@ -31,8 +27,8 @@ module.exports = function (options) {
                                                 util.inspect(err, null, false));
                 return callback(err);
             } else {
-                self.url = 'http://localhost:4501';
-                callback(err, self.url);
+                config.setTestServerUrl('http://localhost:' + config.getPort());
+                callback(err);
             }
         });
 

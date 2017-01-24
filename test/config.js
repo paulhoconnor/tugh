@@ -24,6 +24,10 @@ config.getLocalDB = function() {
     return localdb;
 };
 
+config.isLocalDB = function() {
+    return true;
+};
+
 before(function (done) {
     mockery.enable({
         warnOnReplace: false,

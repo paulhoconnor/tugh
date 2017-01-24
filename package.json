@@ -29,7 +29,6 @@
     "aws-sdk": "2.7.22",
     "sugar": "2.0.4",
     "request": "2.79.0",
-    "dynalite": "1.1.0",
     "log4js": "1.1.0",
     "async": "2.1.4",
     "q": "1.4.1",
@@ -39,7 +38,7 @@
   },
   "devDependencies": {
     "mocha": "3.2.0",
-    "connect": "3.5.0",
+    "dynalite": "1.1.0",
     "jshinthelper": "git+https://github.com/paulhoconnor/jshinthelper.git#0.8.0",
     "findandbind": "0.2.0",
     "istanbul": "0.4.5",

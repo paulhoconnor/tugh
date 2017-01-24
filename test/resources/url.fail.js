@@ -24,8 +24,7 @@ describe('Url resources - system errors', function () {
 
     before(function (done) {
         test_server = new TestServer();
-        test_server.start(function (err, url) {
-            config.setTestServerUrl(url);
+        test_server.start(function (err) {
             done(err);
         });
     });
