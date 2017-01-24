@@ -15,17 +15,13 @@ tugh is a simple URL shortening service written in Node.js, using Amazon DynamoD
 
   - Request Body
 ```
-    {
         {"url": "<<url>>"}
-    }
 ```
   - Response
     - Code: 200 (success)
     - Body:
 ```
-    {
         {"code": "<<tugh code>>"}
-    }
 ```
 ###Retrieve URL for tugh code
 + retrieve URL for tugh code
@@ -36,10 +32,8 @@ tugh is a simple URL shortening service written in Node.js, using Amazon DynamoD
     - Code: 200 (success)
     - Body:
 ```
-    {
         {"url": "<<URL>>"}
-    }
-
+```
 ###Redirect to URL for tugh code
 + redirect to URL for tugh code
 
@@ -81,14 +75,14 @@ You need the following prerequisites to install and run tugh
 
 ###Local Mode
 In local mode, tugh runs stand-alone and disconnected from enterprise infrastructure to support testing:
-+ Runs on port 4501
++ Runs on port 8081
 + Uses local DynamoDB emulator (Dynalite)
 
 Follow these steps to install and run in local mode:
 
 $npm install  
-$npm test (ensure all tests passing)
-$npm run-script startLocal (tugh API listens on port 4501)
+$npm test (ensure all tests passing)  
+$npm run-script startLocal (tugh API listens on port 8081)  
 
 ###Deploying to AWS using Elastic Beanstalk
 ####Prerequisites
@@ -107,65 +101,5 @@ $npm run-script startLocal (tugh API listens on port 4501)
  $zip tugh-deploy.zip -r * .[^.]*
  $eb deploy
  ```
-
-##Examples
-POSO examples can be found in the /examples directory
-
-### Example 1 - loan application processing with triggers
-Loan application processing driven by two triggers (loan application and loan decision). Scripts are provided to illustrate POSO api usage. The example can be run vua these steps:
-
-$./exampleSetup.bash (NOTE: truncs the entire POSO database)  
-$./fireLoanApplicationTrigger.bash  
-$./fireLoanDecisionTrigger.bash  
-
-### Example 2 - loan application processing with instance management
-Loan application processing driven by instance management (starting an instance of a design, storing its instnace id, and then using that id to interact with the instance). Scripts are provided to illustrate POSO api usage. The example can be run vua these steps:
-
-$./exampleSetup.bash (NOTE: truncs the entire POSO database)  
-$./startLoanApplication.bash  
-$./sendLoanDecision.bash  
-
-### Example 3 - loan application processing extended to include a credit check
-Loan application processing driven by instance management (starting an instance of a design, storing its instnace id, and then using that id to interact with the instance). Scripts are provided to illustrate POSO api usage. The example can be run vua these steps:
-
-$./exampleSetup.bash (NOTE: truncs the entire POSO database)
-$(different shell) node app.js  
-$./startLoanApplication.bash  
-$./sendLoanDecision.bash  
-
-##POSO Technical Design
-
-####POSO has a simple design that makes it conducive for hi-volume and high-availability in a multi-tenant environment.
-
-+ JSON/REST API
-+ Node + Mongo
-+ Javascript orchestration design DSL
-  - Arbitrary # of orchestration steps
-  - Define API endpoints to be invoked by reference in steps
-    - Assign local identifier
-    - Define URL
-    - Define security profile
-      - Protocol (HTTP/S)
-        - Provide server cert
-      - Pass on OAuth token (optional)
-      - Api-key (optional)
-      - Client-Cert (optional)
-    - Define error code range
-  - Define initial data context
-  - Extensible conditional logic
-    - Simple expression language
-    - Run designer's Javascript functions
-+ Only invoke JSON/REST APIs asynch
-  - Fire & Forget
-  - Wait for callback before proceeding
-+ Step can contain arbitrary # of parallel API invocations
-+ Any error code from an API invocation puts the orchestration instance into an error state
-  - Support replay same step
-  - Support skip error step and go to next step
-+ Complete context of responses from API endpoints maintained
-  - Define data mask to be applied to outbound API invocations to filter data sent
-+ Native support for invoking sub-orchestrations (via system API reference)
-  -Able to create orchestration hierarchies of arbitrary depth
-
 ##License
-TBD
+Unlicense - use/abuse
