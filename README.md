@@ -47,7 +47,7 @@ tugh is a simple URL shortening service written in Node.js, using Amazon DynamoD
 ##Architectural Considerations
 tugh has been architected to be performant, resource efficient, and scalable.
 + The tugh server is written in Node.js due to its wide adoption, security, and proven mission-critical reliability.
-  - The tugh server is stateless is can be horizontally scaled at will with one caveat (see below).
+  - The tugh server is stateless and can be horizontally scaled at will with one caveat (see below).
 + Tugh presently leverages Amazon DynamoDB for persistence - DynamoDB is capable of scaling to tens of thousands of transactions per second and arbitrarily large datasets with no additional development or management overhead incurred to the tugh service
 + Elastic Beanstalk is currently used for deployment and management due to its ease of use and managed services which greatly ease the move to production
 
