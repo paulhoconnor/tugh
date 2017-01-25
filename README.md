@@ -41,7 +41,7 @@ tugh is a simple URL shortening service written in Node.js, using Amazon DynamoD
 
   - Response
     - Code: 303 (success)
-    - Headers.location: <<URL>>
+    - Headers.location: << original url>>
     - Body:
 
 ##Architectural Considerations
