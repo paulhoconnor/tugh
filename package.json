@@ -4,7 +4,7 @@
   "description": "URL shortening service",
   "main": "index.js",
   "scripts": {
-    "pretest": "./node_modules/.bin/jshint .",
+    "pretest": "standard",
     "test":  "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- -R spec ./test --recursive --bail --timeout 15s --loggers.*.level=off",
     "posttest": "",
     "start": "node index.js",
@@ -39,7 +39,7 @@
   "devDependencies": {
     "mocha": "3.2.0",
     "dynalite": "1.1.0",
-    "jshinthelper": "git+https://github.com/paulhoconnor/jshinthelper.git#0.8.0",
+    "standard": "8.6.0",
     "findandbind": "0.2.0",
     "istanbul": "0.4.5",
     "mockery": "2.0.0"

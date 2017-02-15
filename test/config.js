@@ -1,67 +1,66 @@
-var config      = require('../lib/config'),
-    fs          = require('fs'),
-    mockery     = require('mockery'),
-    LocalDB     = require('../lib/dbs/dynamo/localdb'),
-    Dao         = require('../lib/daos/url');
+/* eslint-env mocha */
 
-module.exports = config;
+const config = require('../lib/config')
+const mockery = require('mockery')
+const LocalDB = require('../lib/dbs/dynamo/localdb')
+const Dao = require('../lib/daos/url')
 
-var TestServer = require('./testServer'),
-    testServer = new TestServer(),
-    testServerUrl,
-    localdb,
-    dao;
+module.exports = config
 
-config.getTestServerUrl = function() {
-    return testServerUrl;
-};
+let testServerUrl
+let localdb
+let dao
 
-config.setTestServerUrl = function(url) {
-    testServerUrl = url;
-};
+config.getTestServerUrl = function () {
+  return testServerUrl
+}
 
-config.getLocalDB = function() {
-    return localdb;
-};
+config.setTestServerUrl = function (url) {
+  testServerUrl = url
+}
 
-config.isLocalDB = function() {
-    return true;
-};
+config.getLocalDB = function () {
+  return localdb
+}
 
-before(function (done) {
-    mockery.enable({
-        warnOnReplace: false,
-        warnOnUnregistered: false
-    });
-    mockery.registerMock('../config', config);
-    mockery.registerMock('./config', config);
-    done();
-});
+config.isLocalDB = function () {
+  return true
+}
 
 before(function (done) {
-    localdb = new LocalDB();
-    localdb.start(done);
-});
+  mockery.enable({
+    warnOnReplace: false,
+    warnOnUnregistered: false
+  })
+  mockery.registerMock('../config', config)
+  mockery.registerMock('./config', config)
+  done()
+})
 
 before(function (done) {
-    dao = Dao.get();
-    dao.configDB().then(function () {
-        done();
-    }, done);
-});
+  localdb = new LocalDB()
+  localdb.start(done)
+})
+
+before(function (done) {
+  dao = Dao.get()
+  dao.configDB().then(function () {
+    done()
+  }, done)
+})
 
 after(function (done) {
-    localdb.stop(function (err) {
-        if (err) {
-            return done(err);
-        }
-        dao.deleteLocalDB().then(function () {
-            done();
-        }, done);
-    });
-});
+  localdb.stop(function (err) {
+    if (err) {
+      return done(err)
+    }
+    dao.deleteLocalDB().then(function () {
+      done()
+    }, done)
+  })
+})
 
 after(function (done) {
-    mockery.disable();
-    done();
-});
+  mockery.disable()
+  done()
+})

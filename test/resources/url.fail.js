@@ -1,59 +1,56 @@
-var config      = require('../config'),
-    request     = require('request'),
-    TestServer  = require('../testServer'),
-    assert      = require('assert'),
-    util        = require('util'),
-    Dao         = require('../../lib/daos/url'),
-    Url         = require('url');
+/* eslint-env mocha */
+
+const config = require('../config')
+const request = require('request')
+const TestServer = require('../testServer')
+const assert = require('assert')
+const util = require('util')
 
 var getUrl = function (path, resource) {
-    var url;
-    if (resource) {
-        url = util.format('%s/%s/%s', config.getTestServerUrl(), path,
-            resource);
-    } else {
-        url = util.format('%s/%s', config.getTestServerUrl(), path);
-    }
+  let url
+  if (resource) {
+    url = util.format('%s/%s/%s', config.getTestServerUrl(), path,
+            resource)
+  } else {
+    url = util.format('%s/%s', config.getTestServerUrl(), path)
+  }
 
-    return url;
-};
+  return url
+}
 
-describe('Url resources - system errors', function () {
+describe('Url resources - system errors', () => {
+  let testServer
 
-    var test_server;
+  before(done => {
+    testServer = new TestServer()
+    testServer.start(function (err) {
+      done(err)
+    })
+  })
 
-    before(function (done) {
-        test_server = new TestServer();
-        test_server.start(function (err) {
-            done(err);
-        });
-    });
+  before(done => {
+    config.getLocalDB().stop(done)
+  })
 
-    before(function (done) {
-        config.getLocalDB().stop(done);
-    });
+  after(done => {
+    config.getLocalDB().start(done)
+  })
 
-    after(function (done) {
-        config.getLocalDB().start(done);
-    });
+  after(done => {
+    testServer.stop(done)
+  })
 
-    after(function (done) {
-        test_server.stop(done);
-    });
+  let testUrl = 'http://foo.com/bar/baz?t=100'
 
-    var test_url = 'http://foo.com/bar/baz?t=100',
-        test_code;
-
-    it('Echange url for code - should get server error', function (done) {
-        request({
-                url: getUrl('url'),
-                method: 'POST',
-                json: {url: test_url}
-            }, function (err, http_resp, body) {
-                assert(http_resp.statusCode, 500);
-                assert(body.message, 'InternalServerError');
-                done(err);
-            });
-    });
-
-});
+  it('Echange url for code - should get server error', done => {
+    request({
+      url: getUrl('url'),
+      method: 'POST',
+      json: {url: testUrl}
+    }, (err, httpResp, body) => {
+      assert(httpResp.statusCode, 500)
+      assert(body.message, 'InternalServerError')
+      done(err)
+    })
+  })
+})
