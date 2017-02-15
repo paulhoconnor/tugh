@@ -1,71 +1,75 @@
-var config      = require('../config'),
-    assert      = require('assert'),
-    util        = require('util'),
-    errors      = require('../../lib/utils/errors'),
-    Dao         = require('../../lib/daos/url');
+/* eslint-env mocha */
 
-require('sugar').extend();
+const assert = require('assert')
+const errors = require('../../lib/utils/errors')
+const Dao = require('../../lib/daos/url')
+
+require('sugar').extend()
 
 describe('dao crud ops ', function () {
+  let dao
+  let testUrl = 'http://bar.com'
 
-    var dao,
-        test_url = 'http://bar.com';
+  before(function (done) {
+    dao = Dao.get()
+    done()
+  })
 
-    before(function (done) {
-        dao = Dao.get();
-        done();
-    });
+  it('ensure base extension', done => {
+    assert.equal(dao.getName(), 'base')
+    done()
+  })
 
-    it('save with no params - expecting ClientError', function (done) {
-        dao.saveUrl().then(function(url) {
-            assert(false, 'should be NotFoundError');
-            done();
-        }, function (err) {
-            assert(err instanceof errors.ClientError);
-            done();
-        });
-    });
+  it('save with no params - expecting ClientError', done => {
+    dao.saveUrl().then(url => {
+      assert(false, 'should be NotFoundError')
+      done()
+    }, err => {
+      assert(err instanceof errors.ClientError)
+      done()
+    })
+  })
 
-    it('getUrlForCode with no params - expecting ClientError', function (done) {
-        dao.getUrlForCode().then(function(url) {
-            assert(false, 'should be NotFoundError');
-            done();
-        }, function (err) {
-            assert(err instanceof errors.ClientError);
-            done();
-        });
-    });
+  it('getUrlForCode with no params - expecting ClientError', done => {
+    dao.getUrlForCode().then(url => {
+      assert(false, 'should be NotFoundError')
+      done()
+    }, err => {
+      assert(err instanceof errors.ClientError)
+      done()
+    })
+  })
 
-    it('save code & url', function (done) {
-        dao.saveUrl('foo', test_url).then(function() {
-            done();
-        }, done);
-    });
+  it('save code & url', done => {
+    dao.saveUrl('foo', testUrl).then(() => {
+      done()
+    }, done)
+  })
 
-    it('retrieved url for saved code', function (done) {
-        dao.getUrlForCode('foo').then(function(url) {
-            assert.equal(url, test_url);
-            done();
-        }, done);
-    });
+  it('retrieved url for saved code', done => {
+    dao.getUrlForCode('foo').then(url => {
+      assert.equal(url, testUrl)
+      done()
+    }, done)
+  })
 
-    it('query for unknown code - should return NotFoundError', function (done) {
-        dao.getUrlForCode('bar').then(function(url) {
-            assert(false, 'should be NotFoundError');
-            done();
-        }, function (err) {
-            assert(err instanceof errors.NotFoundError);
-            done();
-        });
-    });
+  it('query for unknown code - should return NotFoundError', done => {
+    dao.getUrlForCode('bar').then(url => {
+      assert(false, 'should be NotFoundError')
+      done()
+    }, err => {
+      assert(err instanceof errors.NotFoundError)
+      done()
+    })
+  })
 
-    it('save duplicate code - should return DuplicateError', function (done) {
-        dao.saveUrl('foo', test_url).then(function(url) {
-            assert(false, 'should be NotFoundError');
-            done();
-        }, function (err) {
-            assert(err instanceof errors.DuplicateError);
-            done();
-        });
-    });
-});
+  it('save duplicate code - should return DuplicateError', done => {
+    dao.saveUrl('foo', testUrl).then(url => {
+      assert(false, 'should be NotFoundError')
+      done()
+    }, err => {
+      assert(err instanceof errors.DuplicateError)
+      done()
+    })
+  })
+})

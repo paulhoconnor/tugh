@@ -1,58 +1,56 @@
-var config      = require('../config'),
-    assert      = require('assert'),
-    util        = require('util'),
-    errors      = require('../../lib/utils/errors'),
-    Dao         = require('../../lib/daos/url'),
-    localDB     = require('../../lib/daos/url');
+/* eslint-env mocha */
 
-require('sugar').extend();
+const config = require('../config')
+const assert = require('assert')
+const errors = require('../../lib/utils/errors')
+const Dao = require('../../lib/daos/url')
 
-describe('dao crud ops - database down', function () {
+require('sugar').extend()
 
-    var dao,
-        test_url = 'http://bar.com';
+describe('dao crud ops - database down', () => {
+  let dao
+  let testUrl = 'http://bar.com'
 
-    before(function (done) {
-        config.getLocalDB().stop(done);
-    });
+  before(done => {
+    config.getLocalDB().stop(done)
+  })
 
-    after(function (done) {
-        config.getLocalDB().start(done);
-    });
+  after(done => {
+    config.getLocalDB().start(done)
+  })
 
-    before(function (done) {
-        dao = Dao.get();
-        done();
-    });
+  before(done => {
+    dao = Dao.get()
+    done()
+  })
 
-    it('save code & url - expecting InternalServerError', function (done) {
-        dao.saveUrl('foo', test_url).then(function() {
-            assert(false, 'no error');
-            done();
-        }, function(err) {
-            assert(err instanceof errors.InternalServerError);
-            done();
-        });
-    });
+  it('save code & url - expecting InternalServerError', done => {
+    dao.saveUrl('foo', testUrl).then(() => {
+      assert(false, 'no error')
+      done()
+    }, function (err) {
+      assert(err instanceof errors.InternalServerError)
+      done()
+    })
+  })
 
-    it('retrieved url for saved code - expecting InternalServerError',
-                                                            function (done) {
-        dao.getUrlForCode('foo').then(function(url) {
-            assert(false, 'no error');
-            done();
-        }, function(err) {
-            assert(err instanceof errors.InternalServerError);
-            done();
-        });
-    });
+  it('retrieved url for saved code - expecting InternalServerError', done => {
+    dao.getUrlForCode('foo').then(url => {
+      assert(false, 'no error')
+      done()
+    }, err => {
+      assert(err instanceof errors.InternalServerError)
+      done()
+    })
+  })
 
-    it('config db - expecting InternalServerError', function (done) {
-        dao.configDB().then(function(url) {
-            assert(false, 'no error');
-            done();
-        }, function(err) {
-            assert(err instanceof errors.InternalServerError);
-            done();
-        });
-    });
-});
+  it('config db - expecting InternalServerError', done => {
+    dao.configDB().then(url => {
+      assert(false, 'no error')
+      done()
+    }, err => {
+      assert(err instanceof errors.InternalServerError)
+      done()
+    })
+  })
+})
